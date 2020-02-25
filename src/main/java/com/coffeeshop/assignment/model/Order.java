@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Order {
-    private String drinkName;
+    private final String drinkName;
     private List<String> excludeList;
 
     public Order(String drinkName) {
@@ -18,10 +18,6 @@ public class Order {
     }
     public String getDrinkName() {
         return drinkName;
-    }
-
-    public void setDrinkName(String drinkName) {
-        this.drinkName = drinkName;
     }
 
     public List<String> getExcludeList() {

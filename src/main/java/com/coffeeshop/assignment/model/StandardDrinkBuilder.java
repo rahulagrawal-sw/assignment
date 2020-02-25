@@ -1,6 +1,5 @@
 package com.coffeeshop.assignment.model;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -12,9 +11,9 @@ import java.util.function.Consumer;
  * @author Rahul Agrawal
  */
 public class StandardDrinkBuilder {
-    private String drinkName;
-    private double price;
-    private ArrayList ingredients;
+    private final String drinkName;
+    private final double price;
+    private List<String> ingredients;
 
     public StandardDrinkBuilder(String drinkName, double price) {
         this.drinkName = drinkName;
@@ -33,27 +32,7 @@ public class StandardDrinkBuilder {
         return drink;
     }
 
-    public String getDrinkName() {
-        return drinkName;
-    }
-
-    public void setDrinkName(String drinkName) {
-        this.drinkName = drinkName;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public ArrayList getIngredients() {
-        return ingredients;
-    }
-
-    public void setIngredients(ArrayList ingredients) {
+    public void setIngredients(List<String> ingredients) {
         this.ingredients = ingredients;
     }
 }

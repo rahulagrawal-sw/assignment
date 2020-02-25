@@ -24,13 +24,19 @@ public class OrderServiceImplTest {
     }
 
     @Test(expected = InvalidOrderException.class)
+    public void noSuchDrinkServedInShop() throws InvalidOrderException {
+        String myOrder = "BEER";
+        orderService.placeOrder(myOrder);
+    }
+
+    @Test(expected = InvalidOrderException.class)
     public void allDrinkIngredientsShouldNotBeExcluded() throws InvalidOrderException {
-        String myOrder = "CHAI,-tea,-sugar,-milk,-water";
+        String myOrder = "CHAI,-teaBag,-sugar,-milk,-water";
         orderService.placeOrder(myOrder);
     }
 
     @Test
-    public void testPlaceOrderWithStandardSingleDrink() throws InvalidOrderException {
+    public void testPlaceOrderWithStandardSingleDrink() {
         //given
         Order order = new Order("CHAI");
         double expectedValue = 4d;
@@ -41,10 +47,10 @@ public class OrderServiceImplTest {
     }
 
     @Test
-    public void testPlaceOrderWithSingleDrinkAndExcludedIngredients() throws InvalidOrderException {
+    public void testPlaceOrderWithSingleDrinkAndExcludedIngredients() {
         //given
         Order order = new Order("COFFEE");
-        order.addIngredientToExclusion("-sugar");
+        order.addIngredientToExclusion("sugar");
         double expectedValue = 4.5d;
         //when
         double actualValue = orderService.calculateDrinkPrice(order);

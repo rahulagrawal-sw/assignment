@@ -28,20 +28,24 @@ public class OrderHelper {
                 })
                 .collect(Collectors.toList());
 
-        orderDrinks.forEach(orderLine->{
-            System.out.println("ORDER LINE : "+orderLine);
+        for (String orderLine : orderDrinks) {
+            System.out.println("ORDER LINE : " + orderLine);
 
             List<String> orderDetails;
             orderDetails = Stream.of(orderLine.split(",")).collect(Collectors.toList());
 
-            if(!CollectionUtils.isEmpty(orderDetails)) {
+            if (!CollectionUtils.isEmpty(orderDetails)) {
                 Order order = new Order(orderDetails.get(0));
-                order.setExcludeList(orderDetails.subList(1, orderDetails.size()));
+                List<String> exclusions = orderDetails.subList(1, orderDetails.size());
+                order.setExcludeList(
+                        exclusions.stream()
+                                .map(str -> str.substring(1))
+                                .collect(Collectors.toList())
+                );
                 orderItems.add(order);
-                System.out.println("ORDER DETAILS :"+order.toString());
+                System.out.println("ORDER DETAILS :" + order.toString());
             }
-
-        });
+        }
         return orderItems;
     }
 }

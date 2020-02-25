@@ -21,33 +21,32 @@ import java.util.List;
 public class OrderServiceImpl implements OrderService {
 
     @Override
-    public double placeOrder(String input) throws InvalidOrderException {
+    public double placeOrder(final String input) throws InvalidOrderException {
+        //Prepare order request object using provided input string
         OrderHelper orderHelper = new OrderHelper();
         List<Order> orderItems = orderHelper.buildOrderRequest(input);
 
+        //Validate order
         OrderValidator orderValidator = new OrderValidator();
         orderValidator.validateOrder(orderItems);
 
-        var ref = new Object() {
-            double totalOrderPrice = 0d;
-        };
+        //Calculate total price of the order, which may have multiple items
+        double totalOrderPrice = 0d;
+        for (Order order : orderItems) {
+            totalOrderPrice += calculateDrinkPrice(order);
+        }
 
-        orderItems.forEach(order -> {
-                    ref.totalOrderPrice += calculateDrinkPrice(order);
-                }
-            );
-
-        return ref.totalOrderPrice;
+        return totalOrderPrice;
     }
 
     public double calculateDrinkPrice(Order order) {
         StandardDrink standardDrink = CoffeeShopMenu.getStandardDrinkFromMenu(order.getDrinkName());
         if(!CollectionUtils.isEmpty(order.getExcludeList())) {
-            order.getExcludeList()
-                    .forEach(exclude -> standardDrink.excludeIngredient(exclude.substring(1)));
+            for (String ingredientToExclude : order.getExcludeList()) {
+                standardDrink.excludeIngredient(ingredientToExclude, CoffeeShopMenu.getIngredientPrice(ingredientToExclude));
+            }
         }
-        System.out.printf("%s drink price is : %.2f", standardDrink.getDrinkName(), standardDrink.getPrice());
-        System.out.println("");
+        System.out.printf("%s drink price is : %.2f \n", standardDrink.getDrinkName(), standardDrink.getPrice());
 
         return standardDrink.getPrice();
     }

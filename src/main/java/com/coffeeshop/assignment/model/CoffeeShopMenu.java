@@ -7,39 +7,25 @@ import java.util.Map;
 
 public abstract class CoffeeShopMenu {
     private static Map<String, StandardDrink> coffeeShopMenu;
+    private static Map<String, Double> ingredients;
 
     public static void seedData() {
         coffeeShopMenu = new HashMap<>();
-
-        //All required Ingredients
-        Ingredient sugar = createSugar();
-        Ingredient water = createWater();
-        Ingredient milk = createMilk();
-        Ingredient teaBag = createTea();
-        Ingredient coffeePowder = createCoffeePowder();
-        Ingredient lemon = createLemon();
-        Ingredient soda = createSoda();
-        Ingredient mint = createMint();
+        populateIngredients();
 
         //COFFEE
         StandardDrink coffee = new StandardDrinkBuilder("COFFEE", 5d)
-                .with($ -> {
-                    $.setIngredients(new ArrayList<>(Arrays. asList(coffeePowder, milk, sugar, water)));
-                }).build();
+                .with($ -> $.setIngredients(new ArrayList<>(Arrays. asList("coffeePowder", "milk", "sugar", "water")))).build();
         coffeeShopMenu.put("COFFEE", coffee);
 
         //CHAI
         StandardDrink chai = new StandardDrinkBuilder("CHAI", 4d)
-                .with($ -> {
-                    $.setIngredients(new ArrayList<>(Arrays. asList(teaBag, milk, sugar, water)));
-                }).build();
+                .with($ -> $.setIngredients(new ArrayList<>(Arrays. asList("teaBag", "milk", "sugar", "water")))).build();
         coffeeShopMenu.put("CHAI", chai);
 
         //MOJITO
         StandardDrink mojito = new StandardDrinkBuilder("MOJITO", 7.5d)
-                .with($ -> {
-                    $.setIngredients(new ArrayList<>(Arrays. asList(lemon, soda, sugar, water, mint)));
-                }).build();
+                .with($ -> $.setIngredients(new ArrayList<>(Arrays. asList("lemon", "soda", "sugar", "water", "mint")))).build();
         coffeeShopMenu.put("MOJITO", mojito);
     }
 
@@ -47,66 +33,19 @@ public abstract class CoffeeShopMenu {
         return coffeeShopMenu.get(drinkName);
     }
 
-    private static Ingredient createTea() {
-        return new IngredientBuilder()
-                .with($_ingredient -> {
-                    $_ingredient.ingredientName = "tea";
-                    $_ingredient.price = 1d;
-                }).build();
-    }
-    private static Ingredient createCoffeePowder() {
-        return new IngredientBuilder()
-                .with($_ingredient -> {
-                    $_ingredient.ingredientName = "coffee";
-                    $_ingredient.price = 1d;
-                }).build();
+    public static double getIngredientPrice(String ingredientName) {
+        return ingredients.get(ingredientName);
     }
 
-    private static Ingredient createMilk() {
-        return new IngredientBuilder()
-                .with($_ingredient -> {
-                    $_ingredient.ingredientName = "milk";
-                    $_ingredient.price = 1d;
-                }).build();
-    }
-
-    private static Ingredient createSugar() {
-        return new IngredientBuilder()
-                .with($_ingredient -> {
-                    $_ingredient.ingredientName = "sugar";
-                    $_ingredient.price = 0.5d;
-                }).build();
-    }
-
-    private static Ingredient createLemon() {
-        return new IngredientBuilder()
-                .with($_ingredient -> {
-                    $_ingredient.ingredientName = "lemon";
-                    $_ingredient.price = 0.5d;
-                }).build();
-    }
-
-    private static Ingredient createSoda() {
-        return new IngredientBuilder()
-                .with($_ingredient -> {
-                    $_ingredient.ingredientName = "soda";
-                    $_ingredient.price = 0.5d;
-                }).build();
-    }
-
-    private static Ingredient createMint() {
-        return new IngredientBuilder()
-                .with($_ingredient -> {
-                    $_ingredient.ingredientName = "mint";
-                    $_ingredient.price = 0.5d;
-                }).build();
-    }
-
-    private static Ingredient createWater() {
-        return new IngredientBuilder()
-                .with($_ingredient -> {
-                    $_ingredient.ingredientName = "water";
-                    $_ingredient.price = 0.5d;
-                }).build();
+    private static void populateIngredients() {
+        ingredients = new HashMap<>();
+        ingredients.put("coffeePowder", 1d);
+        ingredients.put("teaBag", 1d);
+        ingredients.put("water", 0.5d);
+        ingredients.put("sugar", 0.5d);
+        ingredients.put("milk", 1d);
+        ingredients.put("lemon", 0.5d);
+        ingredients.put("soda", 0.5d);
+        ingredients.put("mint", 0.5d);
     }
 }
