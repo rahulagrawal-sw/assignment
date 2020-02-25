@@ -6,12 +6,7 @@ import com.coffeeshop.assignment.model.Order;
 import com.coffeeshop.assignment.model.StandardDrink;
 import org.apache.commons.collections4.CollectionUtils;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Concrete implementation of the <tt>OrderService</tt> interface. Has the following
